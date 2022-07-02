@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@CrossOrigin
 public class AvailableRideController {
 
     @Autowired
@@ -27,18 +28,20 @@ public class AvailableRideController {
     }
 
     @PutMapping(Keys.Routes.ADD_MULTIPLE_RIDES)
-    public String addRide(@RequestBody List<AvailableRide> availableRides) {
+    public String addRides(@RequestBody List<AvailableRide> availableRides) {
         availableRideService.addRides(availableRides);
         return "Added all rides.";
     }
 
     @PutMapping(Keys.Routes.UPDATE_SEATS)
-    public String updateSeats(@RequestBody SeatUpdateRequest seatUpdateRequest) {
-        return availableRideService.modifyAvailableSeats(seatUpdateRequest.getRideId(), seatUpdateRequest.getOperation());
+    public Object updateSeats(@RequestBody SeatUpdateRequest seatUpdateRequest) {
+        return availableRideService.modifyAvailableSeats(seatUpdateRequest.getRideId(),
+                seatUpdateRequest.getOperation(),
+                seatUpdateRequest.getBookedSeats());
     }
 
     @DeleteMapping(Keys.Routes.DELETE_FROM_ALL_RIDES)
-    public String deleteRide(@RequestBody AvailableRide availableRide) {
+    public Object deleteRide(@RequestBody AvailableRide availableRide) {
         return availableRideService.deleteRide(availableRide.getRid());
     }
 

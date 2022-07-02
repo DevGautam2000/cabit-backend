@@ -10,4 +10,5 @@ public class SeatUpdateRequest {
 
     private int rideId;
     private String operation;
+    private int bookedSeats;
 }

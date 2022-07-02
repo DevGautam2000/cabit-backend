@@ -4,6 +4,8 @@ import me.inginer.cabit.entities.Ride;
 import me.inginer.cabit.entities.User;
 import me.inginer.cabit.repositories.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -31,16 +33,16 @@ public class UserService {
 
     }
 
-    public String modifyUserRides(User user) {
+    public Object modifyUserRides(User user) {
         User exUser = userRepo.findById(user.getUserId()).orElse(null);
-        if (exUser == null) return "User does not exist.";
+        if (exUser == null) return new ResponseEntity<>("User does not exist.", HttpStatus.BAD_REQUEST);
 
         if (!exUser.getPassword().equals(user.getPassword()))
-            return "Incorrect Password.";
+            return new ResponseEntity<>("Incorrect Password.", HttpStatus.BAD_REQUEST);
         exUser.getRides().add(user.getRides().get(0));
         userRepo.save(exUser);
 
-        return "Ride added successfully";
+        return new ResponseEntity<>("Ride added successfully", HttpStatus.OK);
     }
 
     public List<Ride> getUserRide(String uid) {
@@ -56,7 +58,7 @@ public class UserService {
                         Integer.parseInt(obj[4].toString()),
                         obj[5].toString(),
                         Integer.parseInt(obj[6].toString()),
-                        obj[7].toString()));
+                        obj[7].toString(), obj[9].toString()));
             }
         }
         return rides;
