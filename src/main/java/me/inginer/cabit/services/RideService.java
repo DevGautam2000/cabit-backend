@@ -18,10 +18,11 @@ public class RideService {
         rideRepo.save(ride);
     }
 
-    public Object deleteRide(int rid) {
+    public Object deleteRide(String bookingId) {
         try {
-            rideRepo.deleteById(rid);
+            rideRepo.deleteByBookingId(bookingId);
         } catch (Exception e) {
+            System.out.println(e.getMessage());
             return new ResponseEntity<>("Record does not exist.", HttpStatus.BAD_REQUEST);
         }
 

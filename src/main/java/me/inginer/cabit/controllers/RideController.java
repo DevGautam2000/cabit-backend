@@ -24,9 +24,9 @@ public class RideController {
         return userService.modifyUserRides(user);
     }
 
-    @DeleteMapping(Keys.Routes.DELETE_RIDE)
+    @PostMapping(Keys.Routes.DELETE_RIDE)
     public Object deleteRide(@RequestBody Ride ride) {
-        return rideService.deleteRide(ride.getRid());
+        return rideService.deleteRide(ride.getBookingId());
     }
 
 
